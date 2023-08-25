@@ -11,7 +11,7 @@ public final class RetrofitHelper {
     public static Retrofit getInstance() {
         if (instance == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    //https://run.mocky.io/v3/f1ff55ea-b912-42f9-a7db-b505c6e195c9
+                    //https://run.mocky.io/v3/178690a6-c44f-4304-be13-0d2b03fd1052
                     .baseUrl("https://run.mocky.io/v3/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(getLogginBuilder().build())

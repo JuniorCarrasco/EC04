@@ -4,7 +4,10 @@ package com.junior.ec04;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +21,7 @@ import com.junior.ec04.fragments.HomeFragment;
 public class PrincipalActivity extends AppCompatActivity {
     private ActivityPrincipalBinding binding;//BINDING
     public static String EMAIL = "EMAIL";
+    private SharedPreferences sharedPreferences;
     private String email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +30,10 @@ public class PrincipalActivity extends AppCompatActivity {
         setContentView(binding.getRoot());//BINDING
         setSession();
         addHomeFragment();
-        //binding.fabAddMovie.setOnClickListener(v -> {
-        //Snackbar.make(binding.getRoot(),"Add a movie",Snackbar.LENGTH_SHORT).show();
-        //});
+        binding.fabAddMovie.setOnClickListener(v -> {
+        Snackbar.make(binding.getRoot(),"Add a movie",Snackbar.LENGTH_SHORT).show();
+        });
+        setSupportActionBar(binding.tbPlayzoom);
     }
 
     private void addHomeFragment() {
@@ -51,16 +56,37 @@ public class PrincipalActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.search ){
-            Snackbar.make(binding.getRoot(),"Search",Snackbar.LENGTH_SHORT).show();
+        if (item.getItemId() == R.id.settings) {
+            Snackbar.make(binding.getRoot(), "Settings", Snackbar.LENGTH_SHORT).show();
             return true;
-        } else if (item.getItemId() == R.id.settings) {
-            Snackbar.make(binding.getRoot(),"Settings",Snackbar.LENGTH_SHORT).show();
-            return true;
-        } else {
-            return false;
-        }
-    }
+        } else if (item.getItemId() == R.id.logout) {
+            {
+                // Mostrar cuadro de diálogo de confirmación
+                new AlertDialog.Builder(this)
+                        .setTitle("Cerrar sesión")
+                        .setMessage("¿Deseas cerrar la sesión?")
+                        .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                sharedPreferences.edit().clear().apply();
+                                Intent intent = new Intent(PrincipalActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // No hacer nada, simplemente cerrar el cuadro de diálogo
+                            }
+                        })
+                        .show();
 
+                return true;
+            }
+        }
+        return false;
+
+    }
 
 }

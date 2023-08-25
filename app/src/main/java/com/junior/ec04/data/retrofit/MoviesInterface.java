@@ -5,6 +5,6 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface MoviesInterface {
-    @GET("f1ff55ea-b912-42f9-a7db-b505c6e195c9")
+    @GET("178690a6-c44f-4304-be13-0d2b03fd1052")
     Call<ShowResponse> getShows();
 }
